@@ -1,116 +1,160 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SentinelAI | Threat Intelligence & SIEM Log Analyzer</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #030712;
+      background-image: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(225, 29, 72, 0.15), transparent 70%),
+        radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.08), transparent 40%);
+      background-attachment: fixed;
+    }
+    .glass-panel {
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .log-terminal {
+      background: #020617;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans">
-  <!-- Header -->
-  <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-50 px-6 py-4 flex items-center justify-between">
-    <div class="flex items-center space-x-3">
-      <div class="h-9 w-9 rounded-lg bg-rose-600 flex items-center justify-center shadow-lg shadow-rose-600/30">
-        <i class="fa-solid fa-shield-virus text-white text-lg"></i>
+<body class="text-slate-100 min-h-screen flex flex-col font-sans selection:bg-rose-500 selection:text-white antialiased">
+  
+  <!-- SOC Navigation -->
+  <header class="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-xl sticky top-0 z-50 px-6 py-3.5">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-3.5">
+        <div class="h-9 w-9 rounded-xl bg-gradient-to-tr from-rose-600 via-rose-500 to-amber-500 flex items-center justify-center shadow-lg shadow-rose-600/25 text-white font-bold">
+          <i class="fa-solid fa-shield-virus text-sm"></i>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="text-sm font-bold text-white tracking-tight">SentinelAI SOC Command</h1>
+            <span class="text-[10px] font-mono uppercase bg-rose-950/80 text-rose-400 px-2 py-0.5 rounded-full border border-rose-800 font-semibold">
+              Threat Intelligence Engine
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-400">Multi-Stage SIEM Log Anomaly Detection, MITRE ATT&CK & Auto-Playbooks</p>
+        </div>
       </div>
-      <div>
-        <h1 class="text-lg font-bold tracking-tight text-white flex items-center">
-          SentinelAI
-          <span class="ml-2 text-[10px] font-mono uppercase bg-slate-800 text-rose-400 px-2 py-0.5 rounded border border-rose-950">SOC SIEM Edition</span>
-        </h1>
-        <p class="text-xs text-slate-400">Threat Intelligence, Multi-Stage Log Anomaly Detection & Remediation Playbooks</p>
+
+      <div class="flex items-center space-x-3">
+        <div class="flex items-center space-x-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs font-mono text-emerald-400">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          <span>Telemetry Stream Active</span>
+        </div>
+        <a href="https://shahzaib-shams2023.github.io/ai-engineering-portfolio/" class="text-xs bg-slate-900 hover:bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-800 transition flex items-center space-x-1.5">
+          <i class="fa-solid fa-arrow-left text-[10px]"></i>
+          <span>Portfolio</span>
+        </a>
+        <a href="https://github.com/shahzaib-shams2023/sentinel-ai-security-log-analyzer" target="_blank" class="text-xs bg-slate-900 hover:bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-800 transition flex items-center space-x-1.5">
+          <i class="fa-brands fa-github text-sm"></i>
+          <span>GitHub</span>
+        </a>
       </div>
-    </div>
-    <div class="flex items-center space-x-3">
-      <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-950/80 text-emerald-400 border border-emerald-800">
-        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 animate-pulse"></span>
-        Interactive Live Edition
-      </span>
-      <a href="https://shahzaib-shams2023.github.io/ai-engineering-portfolio/" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700 transition flex items-center space-x-1.5">
-        <i class="fa-solid fa-arrow-left text-xs"></i>
-        <span>Portfolio</span>
-      </a>
-      <a href="https://github.com/shahzaib-shams2023/sentinel-ai-security-log-analyzer" target="_blank" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700 transition flex items-center space-x-1.5">
-        <i class="fa-brands fa-github text-sm"></i>
-        <span>GitHub</span>
-      </a>
     </div>
   </header>
 
-  <!-- Main Grid -->
+  <!-- SOC Workspace -->
   <main class="flex-1 max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
-    <!-- Left Column: Log Ingestion -->
-    <div class="lg:col-span-5 space-y-4">
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl">
-        <div class="flex items-center justify-between mb-3">
-          <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center">
+    
+    <!-- Left Column: Ingestion Console -->
+    <div class="lg:col-span-5 space-y-5">
+      <div class="glass-panel rounded-2xl p-5 shadow-xl space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center font-mono">
             <i class="fa-solid fa-file-waveform mr-2 text-rose-400"></i>Log Telemetry Ingestion
           </h2>
           <span class="text-[10px] text-slate-500 font-mono">Syslog • CEF • JSON • Nginx</span>
         </div>
 
-        <form id="logForm" class="space-y-3">
+        <form id="logForm" class="space-y-4">
           <div>
             <textarea id="logInput" rows="11" required
               placeholder="Paste raw syslog, CEF, or web access logs here..."
-              class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 font-mono text-xs text-slate-300 focus:outline-none focus:border-rose-500 leading-relaxed"></textarea>
+              class="w-full log-terminal rounded-xl p-3.5 text-xs text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-rose-500 leading-relaxed"></textarea>
           </div>
 
           <!-- Scenario Buttons -->
           <div>
-            <span class="text-xs text-slate-500 block mb-1.5">Load Threat Scenario:</span>
+            <span class="text-[11px] text-slate-500 block mb-1.5 font-mono">Simulate Adversary Incidents:</span>
             <div class="flex flex-wrap gap-1.5">
-              <button type="button" onclick="loadScenario('brute_force_privilege_escalation')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded transition border border-slate-700">
-                <i class="fa-solid fa-user-ninja mr-1 text-rose-400"></i>SSH Brute Force + PrivEsc
+              <button type="button" onclick="loadScenario('brute_force_privilege_escalation')" class="text-xs bg-slate-900 hover:bg-slate-800 text-slate-200 px-2.5 py-1.5 rounded-lg transition border border-slate-800 flex items-center">
+                <i class="fa-solid fa-user-ninja mr-1.5 text-rose-400 text-xs"></i>SSH Brute + PrivEsc
               </button>
-              <button type="button" onclick="loadScenario('web_sql_injection_exfil')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded transition border border-slate-700">
-                <i class="fa-solid fa-spider mr-1 text-amber-400"></i>SQLi Exploit + Exfil
+              <button type="button" onclick="loadScenario('web_sql_injection_exfil')" class="text-xs bg-slate-900 hover:bg-slate-800 text-slate-200 px-2.5 py-1.5 rounded-lg transition border border-slate-800 flex items-center">
+                <i class="fa-solid fa-spider mr-1.5 text-amber-400 text-xs"></i>SQLi Exploit + Exfil
               </button>
-              <button type="button" onclick="loadScenario('benign_traffic')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded transition border border-slate-700">
-                <i class="fa-solid fa-circle-check mr-1 text-emerald-400"></i>Benign Baseline Logs
+              <button type="button" onclick="loadScenario('benign_traffic')" class="text-xs bg-slate-900 hover:bg-slate-800 text-slate-200 px-2.5 py-1.5 rounded-lg transition border border-slate-800 flex items-center">
+                <i class="fa-solid fa-circle-check mr-1.5 text-emerald-400 text-xs"></i>Clean Baseline
               </button>
             </div>
           </div>
 
-          <button type="submit" id="submitBtn" class="w-full py-2.5 px-4 bg-rose-600 hover:bg-rose-500 text-white rounded-lg font-medium text-xs flex items-center justify-center space-x-2 transition shadow-lg shadow-rose-600/20">
-            <i class="fa-solid fa-fingerprint"></i>
+          <button type="submit" id="submitBtn" class="w-full py-2.5 px-4 bg-gradient-to-r from-rose-600 via-rose-500 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white rounded-xl font-medium text-xs flex items-center justify-center space-x-2 transition shadow-lg shadow-rose-600/25">
+            <i class="fa-solid fa-fingerprint text-xs"></i>
             <span>Execute SIEM Threat Analysis</span>
           </button>
         </form>
       </div>
 
-      <!-- Detection Engine Specifications -->
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl text-xs space-y-2">
-        <h3 class="font-semibold text-slate-300 uppercase tracking-wider text-[11px] flex items-center">
+      <!-- Engine Blueprint -->
+      <div class="glass-panel rounded-2xl p-5 shadow-xl text-xs space-y-2">
+        <h3 class="font-semibold text-slate-300 uppercase tracking-wider text-[11px] flex items-center font-mono">
           <i class="fa-solid fa-shield-halved mr-2 text-rose-400"></i>Engine Capabilities
         </h3>
-        <ul class="space-y-1.5 text-slate-400">
-          <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 text-[10px] mr-2"></i>Multi-Format Normalization (Syslog, CEF, JSON, Web)</li>
-          <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 text-[10px] mr-2"></i>Multi-Stage Attack Chain Correlation</li>
-          <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 text-[10px] mr-2"></i>MITRE ATT&CK Matrix TTP Alignment</li>
-          <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 text-[10px] mr-2"></i>Zero-Trust Containment & Shell Remediation Scripts</li>
+        <ul class="space-y-1.5 text-slate-400 text-[11px]">
+          <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 text-[10px] mr-2"></i>Multi-Format Normalization (Syslog RFC 5424, CEF, Nginx)</li>
+          <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 text-[10px] mr-2"></i>Multi-Stage Kill-Chain Temporal Correlation</li>
+          <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 text-[10px] mr-2"></i>MITRE ATT&CK Matrix TTP Alignment (T1110, T1548, T1059)</li>
+          <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 text-[10px] mr-2"></i>Automated Containment Scripts & Shell Playbooks</li>
         </ul>
       </div>
     </div>
 
     <!-- Right Column: Incident Analysis & Playbook -->
-    <div class="lg:col-span-7 space-y-4">
+    <div class="lg:col-span-7 space-y-5">
+      
       <!-- Incident Severity Banner -->
-      <div id="incidentBanner" class="hidden bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl space-y-3">
+      <div id="incidentBanner" class="hidden glass-panel rounded-2xl p-5 shadow-xl space-y-3">
         <div class="flex items-center justify-between">
           <div class="flex items-center space-x-3">
-            <span id="severityBadge" class="text-xs font-bold uppercase px-3 py-1 rounded-full"></span>
-            <span id="incidentId" class="text-xs font-mono text-slate-400"></span>
+            <span id="severityBadge" class="text-xs font-bold uppercase font-mono px-3 py-1 rounded-full"></span>
+            <span id="incidentId" class="text-xs font-mono text-slate-400 font-bold"></span>
           </div>
-          <span id="analyzedStats" class="text-xs text-slate-500 font-mono"></span>
+          <span id="analyzedStats" class="text-xs text-slate-400 font-mono"></span>
         </div>
-        <p id="incidentSummary" class="text-xs text-slate-300 leading-relaxed font-medium"></p>
+        <p id="incidentSummary" class="text-xs text-slate-300 leading-relaxed font-medium bg-slate-950/80 p-3 rounded-xl border border-slate-800"></p>
       </div>
 
-      <!-- MITRE Tactics Mapping -->
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl space-y-2">
-        <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center">
+      <!-- MITRE Tactics Mapping Grid -->
+      <div class="glass-panel rounded-2xl p-5 shadow-xl space-y-2">
+        <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center font-mono">
           <i class="fa-solid fa-crosshairs mr-2 text-rose-400"></i>Observed MITRE ATT&CK Tactics
         </h3>
         <div id="tacticsContainer" class="flex flex-wrap gap-2 pt-1">
@@ -118,9 +162,9 @@
         </div>
       </div>
 
-      <!-- Detected Alerts Stream -->
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl space-y-3">
-        <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center">
+      <!-- Correlated Alerts Stream -->
+      <div class="glass-panel rounded-2xl p-5 shadow-xl space-y-3">
+        <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center font-mono">
           <i class="fa-solid fa-triangle-exclamation mr-2 text-amber-400"></i>Correlated Threat Alerts
         </h3>
         <div id="alertsContainer" class="space-y-2.5 max-h-[220px] overflow-y-auto pr-2">
@@ -130,13 +174,13 @@
         </div>
       </div>
 
-      <!-- Incident Response Playbook -->
-      <div id="playbookCard" class="hidden bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl space-y-3">
-        <div class="flex items-center justify-between">
-          <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center">
+      <!-- Automated Containment Playbook -->
+      <div id="playbookCard" class="hidden glass-panel rounded-2xl p-5 shadow-xl space-y-3">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center font-mono">
             <i class="fa-solid fa-list-check mr-2 text-emerald-400"></i>Automated Incident Response Playbook
           </h3>
-          <span id="containmentTime" class="text-[10px] font-mono text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800"></span>
+          <span id="containmentTime" class="text-[10px] font-mono text-emerald-400 bg-emerald-950/80 px-2.5 py-0.5 rounded border border-emerald-800 font-bold"></span>
         </div>
         <div id="playbookSteps" class="space-y-2.5">
         </div>
@@ -302,19 +346,19 @@ Oct 24 14:01:25 host-sec-01 sudo: ubuntu : TTY=pts/0 ; PWD=/home/ubuntu ; USER=r
       const badge = document.getElementById('severityBadge');
       badge.textContent = data.overall_severity;
       if (data.overall_severity === 'CRITICAL') {
-        badge.className = 'text-xs font-bold uppercase px-3 py-1 rounded-full bg-rose-950 text-rose-300 border border-rose-800 animate-pulse';
+        badge.className = 'text-xs font-bold uppercase font-mono px-3 py-1 rounded-full bg-rose-950 text-rose-300 border border-rose-800 animate-pulse';
       } else if (data.overall_severity === 'HIGH') {
-        badge.className = 'text-xs font-bold uppercase px-3 py-1 rounded-full bg-amber-950 text-amber-300 border border-amber-800';
+        badge.className = 'text-xs font-bold uppercase font-mono px-3 py-1 rounded-full bg-amber-950 text-amber-300 border border-amber-800';
       } else {
-        badge.className = 'text-xs font-bold uppercase px-3 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800';
+        badge.className = 'text-xs font-bold uppercase font-mono px-3 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800';
       }
 
       // MITRE Tactics
       const tacticsEl = document.getElementById('tacticsContainer');
       if (data.mitre_tactics_observed.length > 0) {
         tacticsEl.innerHTML = data.mitre_tactics_observed.map(t => `
-          <span class="px-2.5 py-1 rounded-md bg-indigo-950/80 text-indigo-300 border border-indigo-800 font-mono text-[11px]">
-            <i class="fa-solid fa-tag mr-1 text-[9px]"></i>${t}
+          <span class="px-2.5 py-1 rounded-lg bg-indigo-950/80 text-indigo-300 border border-indigo-800 font-mono text-[11px] flex items-center">
+            <i class="fa-solid fa-tag mr-1.5 text-[9px]"></i>${t}
           </span>
         `).join('');
       } else {
@@ -324,18 +368,18 @@ Oct 24 14:01:25 host-sec-01 sudo: ubuntu : TTY=pts/0 ; PWD=/home/ubuntu ; USER=r
       // Alerts
       const alertsEl = document.getElementById('alertsContainer');
       if (data.alerts.length === 0) {
-        alertsEl.innerHTML = '<div class="p-4 rounded-lg bg-slate-950 border border-slate-800 text-xs text-emerald-400"><i class="fa-solid fa-circle-check mr-2"></i>No threat anomalies identified. Log telemetry conforms to baseline parameters.</div>';
+        alertsEl.innerHTML = '<div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-emerald-400"><i class="fa-solid fa-circle-check mr-2"></i>No threat anomalies identified. Log telemetry conforms to baseline parameters.</div>';
       } else {
         alertsEl.innerHTML = data.alerts.map(a => `
-          <div class="p-3.5 rounded-lg bg-slate-950 border border-slate-800 hover:border-slate-700 transition">
-            <div class="flex items-center justify-between mb-1">
+          <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-slate-700 transition space-y-1">
+            <div class="flex items-center justify-between">
               <span class="font-bold text-xs text-white">${a.title}</span>
-              <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-slate-800 text-slate-300">${a.severity}</span>
+              <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-rose-400 font-bold">${a.severity}</span>
             </div>
-            <p class="text-xs text-slate-400 mb-2">${a.description}</p>
+            <p class="text-xs text-slate-400">${a.description}</p>
             ${a.mitre_technique ? `
-              <div class="text-[10px] text-rose-400 font-mono">
-                MITRE: ${a.mitre_technique.technique_id} - ${a.mitre_technique.name} (${a.mitre_technique.tactic})
+              <div class="text-[10px] text-rose-400 font-mono pt-1">
+                MITRE TTP: <span class="bg-rose-950/60 px-1.5 py-0.5 rounded border border-rose-900">${a.mitre_technique.technique_id} - ${a.mitre_technique.name} (${a.mitre_technique.tactic})</span>
               </div>
             ` : ''}
           </div>
@@ -349,15 +393,15 @@ Oct 24 14:01:25 host-sec-01 sudo: ubuntu : TTY=pts/0 ; PWD=/home/ubuntu ; USER=r
         playbookCard.classList.remove('hidden');
         document.getElementById('containmentTime').textContent = `Target Containment: <${data.playbook.estimated_containment_time_minutes}m`;
         playbookSteps.innerHTML = data.playbook.remediation_steps.map(s => `
-          <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 text-xs">
-            <div class="flex items-center justify-between mb-1">
-              <span class="font-semibold text-slate-200">Step ${s.step_number}: ${s.action_type}</span>
-              <span class="text-[10px] text-emerald-400 font-mono">${s.automated ? 'AUTOMATED' : 'MANUAL APPROVAL'}</span>
+          <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="font-semibold text-slate-200 font-mono">Step ${s.step_number}: ${s.action_type}</span>
+              <span class="text-[10px] text-emerald-400 font-mono font-bold bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-900">${s.automated ? 'AUTOMATED' : 'MANUAL APPROVAL'}</span>
             </div>
-            <p class="text-slate-400 text-[11px] mb-2">${s.description}</p>
-            <div class="bg-slate-900 p-2 rounded border border-slate-800 font-mono text-emerald-300 text-[11px] flex items-center justify-between">
+            <p class="text-slate-400 text-[11px]">${s.description}</p>
+            <div class="bg-slate-900/90 p-2.5 rounded-lg border border-slate-800 font-mono text-emerald-400 text-[11px] flex items-center justify-between">
               <code>${s.command}</code>
-              <button onclick="navigator.clipboard.writeText('${s.command.replace(/'/g, "\\'")}')" class="text-slate-400 hover:text-white ml-2"><i class="fa-regular fa-copy"></i></button>
+              <button onclick="navigator.clipboard.writeText('${s.command.replace(/'/g, "\\'")}')" class="text-slate-400 hover:text-white ml-2 text-xs" title="Copy command"><i class="fa-regular fa-copy"></i></button>
             </div>
           </div>
         `).join('');
