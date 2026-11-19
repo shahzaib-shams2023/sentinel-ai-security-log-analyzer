@@ -1,0 +1,12 @@
+services:
+  sentinel-ai:
+    build: .
+    container_name: sentinel-ai-service
+    ports:
+      - "8002:8002"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8002
+      - LLM_API_KEY=${LLM_API_KEY:-}
+    restart: unless-stopped
+

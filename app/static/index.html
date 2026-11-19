@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SentinelAI | Threat Intelligence & SIEM Log Analyzer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans">
+  <!-- Header -->
+  <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-50 px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center space-x-3">
+      <div class="h-9 w-9 rounded-lg bg-rose-600 flex items-center justify-center shadow-lg shadow-rose-600/30">
+        <i class="fa-solid fa-shield-virus text-white text-lg"></i>
+      </div>
+      <div>
+        <h1 class="text-lg font-bold tracking-tight text-white flex items-center">
+          SentinelAI
+          <span class="ml-2 text-[10px] font-mono uppercase bg-slate-800 text-rose-400 px-2 py-0.5 rounded border border-rose-950">SOC SIEM Edition</span>
+        </h1>
+        <p class="text-xs text-slate-400">Threat Intelligence, Multi-Stage Log Anomaly Detection & Remediation</p>
+      </div>
+    </div>
+    <div class="flex items-center space-x-4">
+      <span class="text-xs font-mono text-emerald-400 flex items-center">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 mr-2 animate-ping"></span>
+        Ingestion Stream Active
+      </span>
+      <a href="/docs" target="_blank" class="text-xs text-slate-400 hover:text-rose-400 transition-colors">
+        <i class="fa-solid fa-code mr-1"></i>API Docs
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Grid -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <!-- Left Column: Log Ingestion -->
+    <div class="lg:col-span-5 space-y-4">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center">
+            <i class="fa-solid fa-file-waveform mr-2 text-rose-400"></i>Log Telemetry Ingestion
+          </h2>
+          <span class="text-[10px] text-slate-500 font-mono">Syslog • CEF • JSON • Nginx</span>
+        </div>
+
+        <form id="logForm" class="space-y-3">
+          <div>
+            <textarea id="logInput" rows="11" required
+              placeholder="Paste raw syslog, CEF, or web access logs here..."
+              class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 font-mono text-xs text-slate-300 focus:outline-none focus:border-rose-500 leading-relaxed"></textarea>
+          </div>
+
+          <!-- Scenario Buttons -->
+          <div>
+            <span class="text-xs text-slate-500 block mb-1.5">Load Threat Scenario:</span>
+            <div class="flex flex-wrap gap-1.5">
+              <button type="button" onclick="loadScenario('brute_force_privilege_escalation')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded transition border border-slate-700">
+                <i class="fa-solid fa-user-ninja mr-1 text-rose-400"></i>SSH Brute Force + PrivEsc
+              </button>
+              <button type="button" onclick="loadScenario('log4j_exploit_injection')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded transition border border-slate-700">
+                <i class="fa-solid fa-bug mr-1 text-amber-400"></i>Log4Shell RCE Probe
+              </button>
+              <button type="button" onclick="loadScenario('benign_baseline')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded transition border border-slate-700">
+                <i class="fa-solid fa-check mr-1 text-emerald-400"></i>Benign Baseline
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" id="submitBtn" class="w-full py-2.5 px-4 bg-rose-600 hover:bg-rose-500 text-white rounded-lg font-medium text-xs flex items-center justify-center space-x-2 transition shadow-lg shadow-rose-600/30">
+            <i class="fa-solid fa-magnifying-glass-chart"></i>
+            <span>Analyze Logs & Correlate Campaign</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- MITRE Tactics Radar Summary -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl">
+        <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3 flex items-center">
+          <i class="fa-solid fa-diagram-project mr-2 text-indigo-400"></i>Observed MITRE ATT&CK Tactics
+        </h3>
+        <div id="tacticsContainer" class="flex flex-wrap gap-2 text-xs">
+          <span class="text-slate-600 text-xs">Run analysis to identify tactics.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Security Analysis & Playbook -->
+    <div class="lg:col-span-7 space-y-6">
+      <!-- Incident Overview Banner -->
+      <div id="incidentBanner" class="hidden bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
+          <div class="flex items-center space-x-3">
+            <span id="severityBadge" class="text-xs font-bold uppercase px-3 py-1 rounded-full bg-slate-800 text-slate-300 font-mono">
+              Analyzing
+            </span>
+            <span id="incidentId" class="text-xs font-mono text-slate-400">INC-XXXX</span>
+          </div>
+          <span id="analyzedStats" class="text-xs text-slate-400 font-mono">0 logs analyzed</span>
+        </div>
+        <p id="incidentSummary" class="text-xs text-slate-300 leading-relaxed"></p>
+      </div>
+
+      <!-- Correlated Anomaly Alerts -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl">
+        <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3 flex items-center">
+          <i class="fa-solid fa-triangle-exclamation mr-2 text-amber-400"></i>Correlated Threat Alerts
+        </h3>
+        <div id="alertsContainer" class="space-y-3">
+          <div class="text-center text-slate-600 text-xs py-8">
+            <i class="fa-solid fa-radar text-3xl mb-2 text-slate-700"></i>
+            <p>Ingest logs to inspect correlated anomaly detections.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOC Remediation Playbook -->
+      <div id="playbookCard" class="hidden bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
+          <h3 class="text-xs font-semibold uppercase tracking-wider text-emerald-400 flex items-center">
+            <i class="fa-solid fa-terminal mr-2"></i>Automated SOC Remediation Playbook
+          </h3>
+          <span id="containmentTime" class="text-xs text-slate-400 font-mono">Target SLA: 5m</span>
+        </div>
+        <div id="playbookSteps" class="space-y-3">
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let scenarios = {};
+
+    async function fetchScenarios() {
+      try {
+        const res = await fetch('/api/scenarios');
+        scenarios = await res.json();
+      } catch (e) {
+        console.error('Failed to load scenarios', e);
+      }
+    }
+    fetchScenarios();
+
+    function loadScenario(key) {
+      if (scenarios[key]) {
+        document.getElementById('logInput').value = scenarios[key];
+      }
+    }
+
+    document.getElementById('logForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const raw_logs = document.getElementById('logInput').value.trim();
+      if (!raw_logs) return;
+
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+
+      try {
+        const res = await fetch('/api/logs/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ raw_logs })
+        });
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.detail || 'Analysis failed');
+        }
+        const data = await res.json();
+        renderAnalysis(data);
+      } catch (err) {
+        alert('Error: ' + err.message);
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+
+    function renderAnalysis(data) {
+      // Banner
+      const banner = document.getElementById('incidentBanner');
+      banner.classList.remove('hidden');
+      document.getElementById('incidentId').textContent = data.incident_id;
+      document.getElementById('analyzedStats').textContent = `${data.total_logs_analyzed} logs • ${data.anomalies_detected} anomalies`;
+      document.getElementById('incidentSummary').textContent = data.attack_summary;
+
+      const badge = document.getElementById('severityBadge');
+      badge.textContent = data.overall_severity;
+      if (data.overall_severity === 'CRITICAL') {
+        badge.className = 'text-xs font-bold uppercase px-3 py-1 rounded-full bg-rose-950 text-rose-300 border border-rose-800 animate-pulse';
+      } else if (data.overall_severity === 'HIGH') {
+        badge.className = 'text-xs font-bold uppercase px-3 py-1 rounded-full bg-amber-950 text-amber-300 border border-amber-800';
+      } else {
+        badge.className = 'text-xs font-bold uppercase px-3 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800';
+      }
+
+      // MITRE Tactics
+      const tacticsEl = document.getElementById('tacticsContainer');
+      if (data.mitre_tactics_observed.length > 0) {
+        tacticsEl.innerHTML = data.mitre_tactics_observed.map(t => `
+          <span class="px-2.5 py-1 rounded-md bg-indigo-950/80 text-indigo-300 border border-indigo-800 font-mono text-[11px]">
+            <i class="fa-solid fa-tag mr-1 text-[9px]"></i>${t}
+          </span>
+        `).join('');
+      } else {
+        tacticsEl.innerHTML = '<span class="text-xs text-slate-500">None observed (clean baseline).</span>';
+      }
+
+      // Alerts
+      const alertsEl = document.getElementById('alertsContainer');
+      if (data.alerts.length === 0) {
+        alertsEl.innerHTML = '<div class="p-4 rounded-lg bg-slate-950 border border-slate-800 text-xs text-emerald-400"><i class="fa-solid fa-circle-check mr-2"></i>No threat anomalies identified. Log telemetry conforms to baseline parameters.</div>';
+      } else {
+        alertsEl.innerHTML = data.alerts.map(a => `
+          <div class="p-3.5 rounded-lg bg-slate-950 border border-slate-800 hover:border-slate-700 transition">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-bold text-xs text-white">${a.title}</span>
+              <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-slate-800 text-slate-300">${a.severity}</span>
+            </div>
+            <p class="text-xs text-slate-400 mb-2">${a.description}</p>
+            ${a.mitre_technique ? `
+              <div class="text-[10px] text-rose-400 font-mono">
+                MITRE: ${a.mitre_technique.technique_id} - ${a.mitre_technique.name} (${a.mitre_technique.tactic})
+              </div>
+            ` : ''}
+          </div>
+        `).join('');
+      }
+
+      // Playbook
+      const playbookCard = document.getElementById('playbookCard');
+      const playbookSteps = document.getElementById('playbookSteps');
+      if (data.playbook && data.playbook.remediation_steps.length > 0) {
+        playbookCard.classList.remove('hidden');
+        document.getElementById('containmentTime').textContent = `Target Containment: <${data.playbook.estimated_containment_time_minutes}m`;
+        playbookSteps.innerHTML = data.playbook.remediation_steps.map(s => `
+          <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 text-xs">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-semibold text-slate-200">Step ${s.step_number}: ${s.action_type}</span>
+              <span class="text-[10px] text-emerald-400 font-mono">${s.automated ? 'AUTOMATED' : 'MANUAL APPROVAL'}</span>
+            </div>
+            <p class="text-slate-400 text-[11px] mb-2">${s.description}</p>
+            <div class="bg-slate-900 p-2 rounded border border-slate-800 font-mono text-emerald-300 text-[11px] flex items-center justify-between">
+              <code>${s.command}</code>
+              <button onclick="navigator.clipboard.writeText('${s.command.replace(/'/g, "\\'")}')" class="text-slate-400 hover:text-white ml-2"><i class="fa-regular fa-copy"></i></button>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        playbookCard.classList.add('hidden');
+      }
+    }
+  </script>
+</body>
+</html>
+
